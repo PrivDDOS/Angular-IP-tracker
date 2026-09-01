@@ -1,3 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import 'tailwindcss';
+
+
+:root {
+    --color-gray-950: hsl(0, 0%, 17%);
+    --color-gray-400: hsl(0, 0%, 58%);
+}
+
+@layer base {
+    html, body {
+        @apply text-lg;
+        font-family: "Rubik", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+}
