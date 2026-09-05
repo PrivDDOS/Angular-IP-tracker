@@ -11,8 +11,8 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  getLocations(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl)
+  getLocations(): Observable<any> {
+    return this.http.get<any>(this.apiUrl)
   }
 
 }

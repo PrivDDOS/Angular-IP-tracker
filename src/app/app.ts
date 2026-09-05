@@ -13,7 +13,7 @@ import { DataService } from '../data/data'
 })
 export class App implements OnInit {
   protected readonly title = signal('angular-Iptracker');
-  location$!: Observable<any[]>; // The '$' suffix denotes an Observable
+  location$!: Observable<any>; // The '$' suffix denotes an Observable
 
   constructor(private dataService: DataService) {}
 
