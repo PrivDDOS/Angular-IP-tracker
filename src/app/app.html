@@ -17,12 +17,40 @@
   
   <img src="./images/pattern-bg-desktop.png" alt="background image" class="absolute w-full">
 
+  <div class="relative z-10 flex items-center mx-auto top-[40px]">
+    <p class="h1 text-xl text-white font-bold">IP Address Tracker</p>
+  </div>
+
   <div class="relative z-10 w-[40%] h-auto flex items-center mx-auto bg-white top-[100px] rounded-xl">
     <input 
     class="w-full h-[44px] focus:outline-none ps-4" type="text" 
     oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
     >
     <button class="w-10 h-[44px] text-white bg-black rounded-r-xl cursor-pointer"> > </button>
+  </div>
+
+  <div class="relative z-10 w-[80%] h-auto grid grid-cols-4 place-items-center gap-4 mx-auto py-5 bg-white top-[150px] rounded-xl">
+    @if (location$ | async; as user) {
+      <div class="flex flex-col h-15 w-25">
+        <p class="text-xs font-thin uppercase">ip address</p>
+        <p class="text-xl font-medium">{{ user.ip }}</p>
+      </div>
+
+      <div class="flex flex-col h-15 w-25">
+        <p class="text-xs font-thin uppercase">location</p>
+        <p class="text-xl font-medium">{{ user.location.region }}, {{ user.location.country }} {{ user.as.asn }}</p>
+      </div>
+
+      <div class="flex flex-col h-15 w-25">
+        <p class="text-xs font-thin uppercase">timezone</p>
+        <p class="text-xl font-medium">{{ user.location.timezone }}</p>
+      </div>
+
+      <div class="flex flex-col h-15 w-25">
+        <p class="text-xs font-thin uppercase">isp</p>
+        <p class="text-xl font-medium">{{ user.isp }}</p>
+      </div>
+    }
   </div>
 
   
