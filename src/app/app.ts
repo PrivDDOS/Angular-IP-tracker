@@ -3,11 +3,12 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataService } from '../data/data'
+import { MapComponent } from '../components/map/map';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, MapComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

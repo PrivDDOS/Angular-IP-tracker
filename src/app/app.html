@@ -21,7 +21,7 @@
     <p class="h1 text-xl text-white font-bold">IP Address Tracker</p>
   </div>
 
-  <div class="relative z-10 w-[40%] h-auto flex items-center mx-auto bg-white top-[100px] rounded-xl">
+  <div class="relative z-10 w-[40%] h-auto flex items-center mx-auto bg-white top-[80px] rounded-xl">
     <input 
     class="w-full h-[44px] focus:outline-none ps-4" type="text" 
     oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
@@ -29,7 +29,7 @@
     <button class="w-10 h-[44px] text-white bg-black rounded-r-xl cursor-pointer"> > </button>
   </div>
 
-  <div class="relative z-10 w-[80%] h-auto grid grid-cols-4 place-items-center gap-4 mx-auto py-5 bg-white top-[150px] rounded-xl">
+  <div class="relative z-10 w-[80%] h-auto grid grid-cols-4 place-items-center gap-4 mx-auto py-5 bg-white top-[120px] rounded-xl">
     @if (location$ | async; as user) {
       <div class="flex flex-col h-15 w-25">
         <p class="text-xs font-thin uppercase">ip address</p>
@@ -53,6 +53,7 @@
     }
   </div>
 
+  <app-map class="absolute w-full z-1 bottom-0"></app-map>
   
 </main>
 
