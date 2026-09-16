@@ -1,18 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-
-  private apiUrl = "https://geo.ipify.org/api/v2/country?apiKey=at_2WpoDDqzF5U588gTqHX1VzQzOWFgu&ipAddress=8.8.8.8";
+  private apiKey = environment.apiKey;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   getLocations(): Observable<any> {
-    return this.http.get<any>(this.apiUrl)
+    const url = `${this.apiUrl}?${this.apiKey}`
+    return this.http.get<any>(url)
   }
 
 }
