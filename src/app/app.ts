@@ -4,11 +4,12 @@ import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataService } from '../data/data'
 import { MapComponent } from '../components/map/map';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MapComponent],
+  imports: [RouterOutlet, CommonModule, MapComponent, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

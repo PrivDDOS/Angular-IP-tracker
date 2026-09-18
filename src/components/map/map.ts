@@ -10,7 +10,6 @@ import type * as leafletMap from 'leaflet';
 })
 export class MapComponent implements OnInit, AfterViewInit {
   private map!: leafletMap.Map;
-  private marker!: leafletMap.Marker;
   private leaflet!: typeof import('leaflet');
 
   ipData: any = {};
@@ -56,26 +55,24 @@ export class MapComponent implements OnInit, AfterViewInit {
         // Center map view on the map
         this.map.setView([latitude, longtitude], 13);
 
-        if (this.marker) {
-          this.marker.setLatLng([latitude, longtitude]);
-        } else {
-          // Use explicit asset URLs because Angular does not bundle Leaflet images automatically.
-          const defaultIcon = this.leaflet.icon({
-            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-          });
-          this.marker = this.leaflet
-            .marker([latitude, longtitude], { icon: defaultIcon })
-            .addTo(this.map);
-        }
+        const circle = this.leaflet.circle([latitude, longtitude], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 500
+        }).addTo(this.map)
 
-        this.marker.bindPopup('Your IP location').openPopup();
+        circle.bindPopup('Your IP location').openPopup();
       },
 
       error: (error) => console.error('Error fetching IP location:', error),
     });
   }
+
+  onSearch(): void {
+    if(this.searchIp.trim()) {
+      this.userLocation(this.searchIp)
+    }
+  }
+
 }
