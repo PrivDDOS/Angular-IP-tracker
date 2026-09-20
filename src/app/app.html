@@ -17,10 +17,11 @@
 
   <div class="relative z-10 w-[40%] h-auto flex items-center mx-auto bg-white top-[80px] rounded-xl">
     <input 
-    class="w-full h-[44px] focus:outline-none ps-4" type="text" 
-    oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+    class="w-full h-[44px] focus:outline-none ps-4" type="text"
+    [(ngModel)]="searchIp"
+    (input)="searchIp = searchIp.replace(/[^0-9.]/g, '')"
     />
-    <button class="w-10 h-[44px] text-white bg-black rounded-r-xl cursor-pointer"> > </button>
+    <button class="w-10 h-[44px] text-white bg-black rounded-r-xl cursor-pointer" (click)="mapComponent.onSearch()"> > </button>
   </div>
 
   <div class="relative z-10 w-[80%] h-auto grid grid-cols-4 place-items-center gap-4 mx-auto py-5 bg-white top-[120px] rounded-xl">
@@ -47,7 +48,7 @@
     }
   </div>
 
-  <app-map class="absolute w-full z-1 bottom-0"></app-map>
+  <app-map #mapComponent [searchIp]="searchIp" class="absolute w-full z-1 bottom-0"></app-map>
   
 </main>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { DataService } from '../../data/data';
 import type * as leafletMap from 'leaflet';
 
@@ -11,9 +11,11 @@ import type * as leafletMap from 'leaflet';
 export class MapComponent implements OnInit, AfterViewInit {
   private map!: leafletMap.Map;
   private leaflet!: typeof import('leaflet');
+  private mapInit?: Promise<void>;
+  private locationMarker?: leafletMap.Circle;
 
   ipData: any = {};
-  searchIp: string = '';
+  @Input() searchIp = '';
 
   constructor(private dataService: DataService) {}
 
@@ -28,24 +30,41 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.userLocation();
   }
 
-  private async initMap(): Promise<void> {
+  private initMap(): Promise<void> {
     if (typeof window === 'undefined') {
-      return;
+      return Promise.resolve();
     }
 
-    this.leaflet = await import('leaflet');
+    if (this.map) {
+      return Promise.resolve();
+    }
 
-    // Initialize map with a placeholder center view (0, 0)
-    this.map = this.leaflet.map('map').setView([0, 0], 7);
+    if (this.mapInit) {
+      return this.mapInit;
+    }
 
-    this.leaflet
-      .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-      })
-      .addTo(this.map);
+    this.mapInit = import('leaflet').then((leaflet) => {
+      this.leaflet = leaflet;
+
+      // Initialize map with a placeholder center view (0, 0)
+      this.map = this.leaflet.map('map').setView([0, 0], 7);
+
+      this.leaflet
+        .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+        })
+        .addTo(this.map);
+    }).catch((error) => {
+      this.mapInit = undefined;
+      throw error;
+    });
+
+    return this.mapInit;
   }
 
-  userLocation(Ip: string = ''): void {
+  async userLocation(Ip: string = ''): Promise<void> {
+    await this.initMap();
+
     this.dataService.getLocations(Ip).subscribe({
       next: (data) => {
         this.ipData = data;
@@ -55,14 +74,15 @@ export class MapComponent implements OnInit, AfterViewInit {
         // Center map view on the map
         this.map.setView([latitude, longtitude], 13);
 
-        const circle = this.leaflet.circle([latitude, longtitude], {
+        this.locationMarker?.remove();
+        this.locationMarker = this.leaflet.circle([latitude, longtitude], {
           color: 'red',
           fillColor: '#f03',
           fillOpacity: 0.5,
           radius: 500
-        }).addTo(this.map)
+        }).addTo(this.map);
 
-        circle.bindPopup('Your IP location').openPopup();
+        this.locationMarker.bindPopup('Your IP location').openPopup();
       },
 
       error: (error) => console.error('Error fetching IP location:', error),
@@ -71,7 +91,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   onSearch(): void {
     if(this.searchIp.trim()) {
-      this.userLocation(this.searchIp)
+      this.userLocation(this.searchIp);
     }
   }
 

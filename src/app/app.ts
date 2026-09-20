@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class App implements OnInit {
   protected readonly title = signal('angular-Iptracker');
   location$!: Observable<any>; // The '$' suffix denotes an Observable
+  searchIp = '';
 
   constructor(private dataService: DataService) {}
 

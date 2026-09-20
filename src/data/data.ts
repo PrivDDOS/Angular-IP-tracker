@@ -13,7 +13,10 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   getLocations(userIp: string = ""): Observable<any> {
-    const url = `${this.apiUrl}?${this.apiKey}`
+    const ipParameter = userIp.trim()
+      ? `ipAddress=${encodeURIComponent(userIp.trim())}&`
+      : '';
+    const url = `${this.apiUrl}?${ipParameter}${this.apiKey}`;
     return this.http.get<any>(url)
   }
 
