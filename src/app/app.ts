@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DataService } from '../data/data'
 import { MapComponent } from '../components/map/map';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,10 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.location$ = this.dataService.getLocations()
-    console.log(this.location$)
+  }
+
+  updateLocation(location: any): void {
+    this.location$ = of(location);
   }
 
 }

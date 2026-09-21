@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, AfterViewInit, Input, Output } from '@angular/core';
 import { DataService } from '../../data/data';
 import type * as leafletMap from 'leaflet';
 
@@ -15,7 +15,10 @@ export class MapComponent implements OnInit, AfterViewInit {
   private locationMarker?: leafletMap.Circle;
 
   ipData: any = {};
+  // Receiving searchIp from app.ts
   @Input() searchIp = '';
+  // Pass the event from here to app.ts
+  @Output() locationChange = new EventEmitter<any>();
 
   constructor(private dataService: DataService) {}
 
@@ -68,6 +71,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.dataService.getLocations(Ip).subscribe({
       next: (data) => {
         this.ipData = data;
+        this.locationChange.emit(data);
         const latitude = data.location.lat;
         const longtitude = data.location.lng;
 
